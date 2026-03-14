@@ -227,6 +227,7 @@ const dom = {
   bonusNumberInput: document.getElementById("bonus-number"),
   resultBtn: document.getElementById("result-btn"),
   modalOverlay: document.getElementById("modal-overlay"),
+  modalCloseBtn: document.getElementById("modal-close-btn"),
   restartBtn: document.getElementById("restart-btn"),
   stats: {
     1: document.getElementById("stat-1"),
@@ -259,7 +260,7 @@ const renderResultModal = (prizeList, roi) => {
 const resetDOM = () => {
   dom.purchasedLottoSection.innerHTML = "";
   dom.winningSection.classList.add("hidden");
-  dom.modalOverlay.classList.add("hidden");
+  modalHiddenByBtn();
   dom.purchaseInput.value = "";
   dom.winningNumberInputs.forEach((input) => input.value = "");
   dom.bonusNumberInput.value = "";
@@ -270,7 +271,21 @@ const renderErrorMessage = (errorEle, errorMsg) => {
 const removeErrorMessage = (errorEle) => {
   errorEle.textContent = "";
 };
+const modalHiddenByBtn = () => {
+  dom.modalOverlay.classList.add("hidden");
+};
+const modalHiddenByOverlay = (e) => {
+  if (e.target === dom.modalOverlay) {
+    dom.modalOverlay.classList.add("hidden");
+  }
+};
 const webLottoManager = new WebLottoManager(generateRandomNumbers);
+dom.modalCloseBtn.addEventListener("click", () => {
+  modalHiddenByBtn();
+});
+dom.modalOverlay.addEventListener("click", (e) => {
+  modalHiddenByOverlay(e);
+});
 dom.purchaseBtn.addEventListener("click", (e) => {
   e.preventDefault();
   try {
